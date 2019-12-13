@@ -13,4 +13,4 @@ def ReadEmbeddingsFile():
   
 if __name__ == '__main__':
   EmbedDict = ReadEmbeddingsFile()
-  print(EmbedDict["uncle"].shape)
+  # print(EmbedDict["uncle"].shape)
