@@ -1,7 +1,7 @@
 import numpy as np
 import pair_io
 from ReadEmbeddings import ReadEmbeddingsFile
-from Tests import PlotEmbeddingDistances
+from Tests import PlotEmbeddingDistances, PlotGenderSimilarity
 
 def center_matrix(matrix):
     col_avgs = np.average(matrix, axis=0)
@@ -190,9 +190,10 @@ if __name__ == '__main__':
     subspace, neutralized, equalized = produce_debiased_embeddings(embedding_dict)
     pairs = pair_io.get_definitional_pairs()
     pair_embeds = []
+    pair_debias = []
     for (u,v) in pairs:
         pair_embeds.append([embedding_dict[u],embedding_dict[v]])
-    Neutrals = ["vampires","surgeon","flashy","vocalists"]
-    PlotEmbeddingDistances(Neutrals,pair_embeds,embedding_dict,neutralized)
-    #print(neutralized["uncle"].shape)
-    print(equalized["her"])
+        #pair_debias.append([equalized[u],equalized[v]])
+    Neutrals = ["vampires","surgeon","flashy","vocalists","guitarist","deer","singer","hen","theirs","yours","dolls","gay","twin","monk","stallion"]
+    PlotEmbeddingDistances(Neutrals,pair_embeds,pair_embeds,embedding_dict,neutralized)
+    PlotGenderSimilarity(Neutrals,pair_embeds,pair_embeds,embedding_dict,neutralized)
