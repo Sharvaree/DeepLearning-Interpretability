@@ -188,3 +188,6 @@ if __name__ == '__main__':
         embedding_dict[text] = embedding / np.linalg.norm(embedding)
         assert np.linalg.norm(embedding_dict[text]) - 1 < 1e-10
     subspace, neutralized, equalized = produce_debiased_embeddings(embedding_dict)
+    print(subspace.shape)
+    print(neutralized.shape)
+    print(equalized.shape)
