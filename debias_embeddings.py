@@ -1,7 +1,7 @@
 import numpy as np
 import pair_io
 from ReadEmbeddings import ReadEmbeddingsFile
-
+from Tests import PlotEmbeddingDistances
 
 def center_matrix(matrix):
     col_avgs = np.average(matrix, axis=0)
@@ -26,7 +26,7 @@ def get_bias_subspace(definitional_pairs, num_axes=10):
 
     # for i, (u, v) in enumerate(definitional_pairs):
     #     mean = (u + v) / 2
-    #     basis_u = u - mean
+    #     basis_u = u - meanx
     #     basis_u /= np.linalg.norm(basis_u)
     #     assert np.linalg.norm(basis_u) - 1 < 1e-10
     #     basis_v = v - mean
@@ -142,9 +142,9 @@ def produce_debiased_embeddings(embedding_dict, num_principal_axes=10):
             )
         else:
             if woman not in embedding_dict:
-                print(f"Definitional term '{woman}' not found in embeddings dictionary!")
+                print("Definitional term '{woman}' not found in embeddings dictionary!")
             if man not in embedding_dict:
-                print(f"Definitional term '{man}' not found in embeddings dictionary!")
+                print("Definitional term '{man}' not found in embeddings dictionary!")
 
     # separate definitional embeddings from non-definitional embeddings,
     # because the definitional embeddings will not be re-embedded
@@ -172,9 +172,9 @@ def produce_debiased_embeddings(embedding_dict, num_principal_axes=10):
             )
         else:
             if woman not in embedding_dict:
-                print(f"Equalization term '{woman}' not found in embeddings dictionary!")
+                print("Equalization term '{woman}' not found in embeddings dictionary!")
             if man not in embedding_dict:
-                print(f"Equalization term '{man}' not found in embeddings dictionary!")
+                print("Equalization term '{man}' not found in embeddings dictionary!")
     equalized = equalize(equalization_pairs_dict, bias_subspace)
 
     return bias_subspace, neutralized, equalized
@@ -188,6 +188,11 @@ if __name__ == '__main__':
         embedding_dict[text] = embedding / np.linalg.norm(embedding)
         assert np.linalg.norm(embedding_dict[text]) - 1 < 1e-10
     subspace, neutralized, equalized = produce_debiased_embeddings(embedding_dict)
-    print(subspace.shape)
-    print(neutralized.shape)
-    print(equalized.shape)
+    pairs = pair_io.get_definitional_pairs()
+    pair_embeds = []
+    for (u,v) in pairs:
+        pair_embeds.append([embedding_dict[u],embedding_dict[v]])
+    Neutrals = ["vampires","surgeon","flashy","vocalists"]
+    PlotEmbeddingDistances(Neutrals,pair_embeds,embedding_dict,neutralized)
+    #print(neutralized["uncle"].shape)
+    print(equalized["her"])
