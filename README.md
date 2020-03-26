@@ -1,4 +1,4 @@
-# DeepLearning-Interpretatbility
+# DeepLearning-Interpretability
 
 Project plan
 
